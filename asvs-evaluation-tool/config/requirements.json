@@ -1,0 +1,80 @@
+{
+    "authentication": {
+        "password_length": {
+            "requirement": "Passwords must be at least 12 characters long.",
+            "level": 1
+        },
+        "password_storage": {
+            "requirement": "Passwords must be hashed using a strong algorithm (e.g., bcrypt).",
+            "level": 1
+        },
+        "multi_factor_authentication": {
+            "requirement": "Multi-factor authentication must be implemented for all sensitive accounts.",
+            "level": 2
+        }
+    },
+    "input_validation": {
+        "sql_injection": {
+            "requirement": "Inputs must be sanitized to prevent SQL injection.",
+            "level": 1
+        },
+        "xss_protection": {
+            "requirement": "Inputs must be sanitized to prevent XSS.",
+            "level": 1
+        },
+        "input_length_validation": {
+            "requirement": "Inputs must be validated for appropriate length.",
+            "level": 1
+        },
+        "path_traversal_prevention": {
+            "requirement": "Inputs must be validated to prevent directory traversal attacks.",
+            "level": 2
+        }
+    },
+    "session_management": {
+        "session_timeout": {
+            "requirement": "Sessions must time out after 15 minutes of inactivity.",
+            "level": 2
+        },
+        "secure_cookie_flag": {
+            "requirement": "Cookies must have the Secure flag set.",
+            "level": 1
+        },
+        "http_only_cookie_flag": {
+            "requirement": "Cookies must have the HttpOnly flag set.",
+            "level": 1
+        },
+        "csrf_token": {
+            "requirement": "A unique CSRF token must be included in sensitive requests.",
+            "level": 2
+        }
+    },
+    "cryptography": {
+        "tls_enforcement": {
+            "requirement": "TLS 1.2 or higher must be enforced.",
+            "level": 2
+        },
+        "encryption_key_rotation": {
+            "requirement": "Encryption keys must be rotated at least annually.",
+            "level": 3
+        },
+        "strong_hashing_algorithms": {
+            "requirement": "Only strong cryptographic hashing algorithms (e.g., SHA-256 or better) must be used.",
+            "level": 2
+        }
+    },
+    "access_control": {
+        "role_based_access": {
+            "requirement": "Role-based access control must be implemented.",
+            "level": 2
+        },
+        "least_privilege": {
+            "requirement": "Access must be granted based on the principle of least privilege.",
+            "level": 2
+        },
+        "account_lockout": {
+            "requirement": "Accounts must be locked after 5 failed login attempts.",
+            "level": 1
+        }
+    }
+}
