@@ -1,6 +1,18 @@
+from .cwe_api import CWEAPI
+from .nist_api import NISTAPI
+
 class Evaluator:
     def __init__(self, requirements):
         self.requirements = requirements
+        self.cwe_mapping = {}
+        self.nist_data = {}
+
+    def load_cwe_data(self):
+        CWEAPI.fetch_cwe_data()
+        self.cwe_mapping = CWEAPI.parse_cwe_data()
+
+    def fetch_nist_data(self, keyword):
+        self.nist_data = NISTAPI.fetch_nist_data(keyword=keyword)
 
     def evaluate(self, category, data):
         results = {}
@@ -12,7 +24,9 @@ class Evaluator:
             if check:
                 results[req] = {
                     "requirement": details["requirement"],
-                    "status": "Pass" if check(data.get(req, "")) else "Fail"
+                    "status": "Pass" if check(data.get(req, "")) else "Fail",
+                    "cwe": self.get_cwe_for_requirement(req),
+                    "nist": self.get_nist_for_requirement(req)
                 }
             else:
                 results[req] = {
@@ -21,25 +35,16 @@ class Evaluator:
                 }
         return results
 
+    def get_cwe_for_requirement(self, req):
+        return self.cwe_mapping.get(req, {"name": "Unknown", "description": "No CWE mapping found"})
+
+    def get_nist_for_requirement(self, req):
+        return {"nist_controls": self.nist_data.get(req, "No NIST mapping found")}
+
     def _get_check(self, req):
-        # Maps requirement keys to their validation functions.
         checks = {
             "password_length": lambda pwd: len(pwd) >= 12,
             "password_storage": lambda hashed: hashed.startswith("$2b$"),
-            "multi_factor_authentication": lambda mfa: mfa == "enabled",
-            "sql_injection": lambda query: "DROP" not in query.upper(),
-            "xss_protection": lambda input_data: "<script>" not in input_data.lower(),
-            "input_length_validation": lambda input_data: len(input_data) <= 255,
-            "path_traversal_prevention": lambda input_data: ".." not in input_data,
-            "session_timeout": lambda timeout: int(timeout.split()[0]) <= 15,
-            "secure_cookie_flag": lambda flag: flag is True,
-            "http_only_cookie_flag": lambda flag: flag is True,
-            "csrf_token": lambda token: token == "valid_token",
-            "tls_enforcement": lambda version: version >= "TLS 1.2",
-            "encryption_key_rotation": lambda date: int(date.split("-")[0]) >= 2023,
-            "strong_hashing_algorithms": lambda algo: algo in ["SHA-256", "SHA-512"],
-            "role_based_access": lambda status: status == "enabled",
-            "least_privilege": lambda status: status == "enforced",
-            "account_lockout": lambda attempts: int(attempts.split()[0]) >= 5
+            "multi_factor_authentication": lambda mfa: mfa == "enabled"
         }
         return checks.get(req)
