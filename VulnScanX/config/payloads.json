@@ -1,0 +1,5 @@
+{
+    "sql_injection": ["' OR '1'='1", "' OR 'a'='a"],
+    "xss": ["<script>alert('XSS')</script>"],
+    "directory_traversal": ["../../etc/passwd", "../../windows/win.ini"]
+  }
