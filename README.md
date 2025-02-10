@@ -1,18 +1,19 @@
-ASVS Evaluation Tool
+# ASVS-Evaluation-Tool
+This project provides a scalable solution for implementing and evaluating the OWASP ASVS framework.
 
----
-
-The ASVS Evaluation Tool is a scalable solution designed to help implement and evaluate the OWASP Application Security Verification Standard (ASVS) framework. This tool provides a structured approach to assess the security requirements of an application by leveraging the ASVS guidelines.
-
----
-
+### Directory Structure
+```
 asvs-evaluation-tool/
-├── main.py              # Entry point for the application
+├── main.py                # Entry point for the application
 ├── config/
-│   └── requirements.json # JSON file containing ASVS requirements
+│   ├── requirements.json  # JSON file containing ASVS requirements
+│   └── cwe_nist_mappings.json # JSON file containing CWE/NIST mappings
 ├── modules/
-│   ├── evaluator.py      # Core logic for evaluating requirements
-│   ├── loader.py         # Module to load requirements from JSON
-│   └── reporter.py       # Module to generate reports
-└── tests/
-    └── test_data.json    # Sample test cases for validation
+│   ├── evaluator.py       # Core logic for evaluating requirements
+│   ├── loader.py          # Module to load requirements from JSON
+│   ├── reporter.py        # Module to generate reports
+│   └── cwe_nist_mapper.py # Module to map CWE/NIST mappings
+├── tests/
+│    └── test_data.json    # Sample test cases for validation
+└── reports/
+    └── report.json        # Generated report
